@@ -1,13 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import AddIcons from "../../utils/AddIcons";
 import DashboarIcon from "../../utils/DashboarIcon";
-import Manage from "../../utils/Manage";
-import CategoryIcon from "../../utils/CategoryIcon";
+import BarIcons from "../../utils/BarIcons";
 
 const DashboardLayout = () => {
   return (
     <div className="w-full overflow-hidden h-screen bg-[#191E24]">
       <div className="mx-auto px-8 py-2 flex justify-between border-b border-slate-800">
+        <div className="drawer-content flex flex-col items-start justify-center lg:hidden">
+          <label htmlFor="my-drawer-2" className="btn drawer-button lg:hidden">
+            <BarIcons />
+          </label>
+        </div>
         <h2 className="text-white text-4xl font-bold cursor-pointer">
           Nursery
         </h2>
@@ -45,14 +49,9 @@ const DashboardLayout = () => {
       </div>
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content flex flex-col items-start justify-center bg-[#1D232A]">
-          {/* Page content here */}
-          <label
-            htmlFor="my-drawer-2"
-            className="btn btn-primary drawer-button lg:hidden"
-          >
-            Open drawer
-          </label>
+
+        <div className="drawer-content p-6">
+          <Outlet />
         </div>
         <div className="drawer-side">
           <label
@@ -60,49 +59,29 @@ const DashboardLayout = () => {
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <div className="relative p-4">
-            <ul className="menu bg-base-200 text-base-content h-full w-68  space-y-2  text-[16px]">
+          <div className="relative h-full">
+            <ul className="menu bg-[#1D232A] text-base-content h-full w-68 p-6  space-y-3  text-[16px]">
               {/* Sidebar content here */}
               <li>
-                <Link to="">
+                <Link to="/dashboard/home">
                   <DashboarIcon />
                   Dashboard
                 </Link>
               </li>
               <li>
-                <details className="dropdown">
-                  <summary className="w-full">
-                    <Manage />
-                    Product Management
-                  </summary>
-                  <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-full shadow px-0 mx-3 text-[16px]">
-                    <li>
-                      <Link to="">
-                        <AddIcons />
-                        Create Product
-                      </Link>
-                    </li>
-                  </ul>
-                </details>
+                <Link to="/dashboard/create-product">
+                  <AddIcons />
+                  Create Product
+                </Link>
               </li>
               <li>
-                <details className="dropdown">
-                  <summary className="w-full flex items-center">
-                    <CategoryIcon />
-                    Category Management
-                  </summary>
-                  <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-full shadow px-0 mx-3 text-[16px]">
-                    <li>
-                      <Link to="">
-                        <AddIcons />
-                        Create Category
-                      </Link>
-                    </li>
-                  </ul>
-                </details>
+                <Link to="/dashboard/create-category">
+                  <AddIcons />
+                  Create Category
+                </Link>
               </li>
               <li>
-                <Link to="">
+                <Link to="/dashboard/product-list">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -121,7 +100,7 @@ const DashboardLayout = () => {
                 </Link>
               </li>
               <li>
-                <Link to="">
+                <Link to="/dashboard/category-list">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -140,7 +119,7 @@ const DashboardLayout = () => {
                 </Link>
               </li>
               <li>
-                <Link to="">
+                <Link to="/dashboard/payments">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -159,7 +138,7 @@ const DashboardLayout = () => {
                 </Link>
               </li>
               <li>
-                <Link to="">
+                <Link to="/dashboard/orders">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
