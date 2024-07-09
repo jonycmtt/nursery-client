@@ -1,12 +1,25 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { useCreateProductMutation } from "../../redux/api/baseApi";
 
 const CreateProduct = () => {
   const { register, handleSubmit } = useForm();
+  const [addData] = useCreateProductMutation(undefined);
 
   const onSubmit = (data: any) => {
-    console.log(data);
+    const productData = {
+      title: data.title,
+      description: data.description,
+      price: data.price,
+      rating: data.rating,
+      category: data.category,
+      imageUrl: data.imageUrl,
+    };
+
+    addData(productData);
   };
+
+  console.log(addData);
 
   return (
     <div>
