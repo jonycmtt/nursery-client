@@ -5,8 +5,8 @@ import BarIcons from "../../utils/BarIcons";
 
 const DashboardLayout = () => {
   return (
-    <div className="w-full overflow-hidden h-screen bg-[#191E24]">
-      <div className="mx-auto px-8 py-2 flex justify-between border-b border-slate-800">
+    <div className="w-full relative overflow-hidden h-screen bg-[#191E24]">
+      <div className="sticky top-0 z-10 left-0 w-full bg-[#1D232A] mx-auto px-8 py-2 flex justify-between border-b border-slate-800">
         <div className="drawer-content flex flex-col items-start justify-center lg:hidden">
           <label htmlFor="my-drawer-2" className="btn drawer-button lg:hidden">
             <BarIcons />
@@ -50,7 +50,7 @@ const DashboardLayout = () => {
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
 
-        <div className="drawer-content p-6">
+        <div className="drawer-content py-8 px-8 h-screen overflow-auto">
           <Outlet />
         </div>
         <div className="drawer-side">
@@ -60,7 +60,7 @@ const DashboardLayout = () => {
             className="drawer-overlay"
           ></label>
           <div className="relative h-full">
-            <ul className="menu bg-[#1D232A] text-base-content h-full w-68 p-6  space-y-3  text-[16px]">
+            <ul className="menu bg-[#1D232A] text-base-content h-full w-72 p-6  space-y-3  text-[16px]">
               {/* Sidebar content here */}
               <li>
                 <Link to="/dashboard/home">
