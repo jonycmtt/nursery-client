@@ -1,8 +1,8 @@
-import Landing from "../pages/Landing";
-import Products from "../pages/Products";
-import SingleProduct from "../pages/SingleProduct";
-import Checkout from "../pages/Checkout";
-import Payment from "../pages/Payment";
+import Checkout from "../pages/MainPage/Checkout";
+import Landing from "../pages/MainPage/Landing";
+import Payment from "../pages/MainPage/Payment";
+import Products from "../pages/MainPage/Products";
+import SingleProduct from "../pages/MainPage/SingleProduct";
 
 export const mainRoutes = [
   {
