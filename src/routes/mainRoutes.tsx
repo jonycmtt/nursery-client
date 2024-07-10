@@ -1,5 +1,5 @@
 import Checkout from "../pages/MainPage/Checkout";
-import Landing from "../pages/MainPage/Landing";
+import Landing from "../pages/landing/Landing";
 import Payment from "../pages/MainPage/Payment";
 import Products from "../pages/MainPage/Products";
 import SingleProduct from "../pages/MainPage/SingleProduct";
