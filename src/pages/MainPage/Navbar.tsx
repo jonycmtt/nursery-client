@@ -15,7 +15,7 @@ const Navbar = () => {
         </li>
 
         <li>
-          <Link to="/payment">Product and Category Management</Link>
+          <Link to="/dashboard/home">Product and Category Management</Link>
         </li>
       </ul>
     </div>

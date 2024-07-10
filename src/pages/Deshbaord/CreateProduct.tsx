@@ -15,7 +15,7 @@ const CreateProduct = () => {
       text: `${data.message}`,
       icon: "success",
     });
-    navigate("/dashboard/product-list");
+    // navigate("/dashboard/product-list");
   }
 
   const onSubmit = async (data: any) => {
@@ -75,8 +75,10 @@ const CreateProduct = () => {
             <option disabled selected>
               Product Category
             </option>
-            <option value={"amm"}>amm</option>
-            <option value={"jamm"}>jamm</option>
+            <option value={"Mardi Gras"}>Mardi Gras</option>
+            <option value={"Golden King"}>Golden King</option>
+            <option value={"Rose Creek"}>Rose Creek</option>
+            <option value={"Canyon Creek"}>Canyon Creek</option>
           </select>
         </div>
         <textarea

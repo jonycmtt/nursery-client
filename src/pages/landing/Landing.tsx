@@ -1,7 +1,11 @@
+import Banner from "./Banner";
+import NutrientsPlants from "./NutrientsPlants";
+
 const Landing = () => {
   return (
     <div>
-      <h2>This is Landing component</h2>
+      <Banner />
+      <NutrientsPlants />
     </div>
   );
 };
