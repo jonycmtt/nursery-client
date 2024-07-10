@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useCreateProductMutation } from "../../redux/api/baseApi";
 import Swal from "sweetalert2";
+import { useCreateProductMutation } from "../../redux/features/product/productApi";
 
 const CreateProduct = () => {
   const { register, handleSubmit } = useForm();

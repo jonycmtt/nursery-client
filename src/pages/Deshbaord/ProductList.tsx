@@ -1,14 +1,14 @@
 import { Button, Modal, Skeleton } from "antd";
-import {
-  useDeleteProductMutation,
-  useGetProductsQuery,
-  useUpdateProductMutation,
-} from "../../redux/api/baseApi";
 import { TProducts } from "../../types/productType";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import {
+  useDeleteProductMutation,
+  useGetProductsQuery,
+  useUpdateProductMutation,
+} from "../../redux/features/product/productApi";
 
 const ProductList = () => {
   const { data, isLoading } = useGetProductsQuery(undefined);
@@ -19,6 +19,10 @@ const ProductList = () => {
   const { _id, title, price, category, rating, imageUrl, description } = update;
 
   const productData = data;
+
+  if (isLoading) {
+    return;
+  }
 
   const handleDelete = (id: string) => {
     Swal.fire({
@@ -60,9 +64,16 @@ const ProductList = () => {
     const imageUrl = form.imageUrl.value;
     const description = form.description.value;
 
-    // const data = ;
+    const data = {
+      title,
+      price,
+      rating,
+      category,
+      imageUrl,
+      description,
+    };
 
-    updateProduct(id, data);
+    updateProduct({ id, data });
   };
 
   return (
@@ -170,7 +181,7 @@ const ProductList = () => {
       {/* SHOW MODAL */}
 
       <dialog id="my_modal_5" className="modal">
-        <div className="modal-box">
+        <div className="modal-box w-11/12 max-w-5xl">
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
               ✕
@@ -222,7 +233,7 @@ const ProductList = () => {
             <textarea
               defaultValue={imageUrl}
               name="imageUrl"
-              className="input input-bordered resize-none h-20 p-4"
+              className="input input-bordered resize-none h-24 p-4"
               placeholder="Product URL"
             ></textarea>
             <textarea
@@ -232,9 +243,13 @@ const ProductList = () => {
               id=""
               placeholder="Description..."
             ></textarea>
-            <button className="btn btn-primary" type="submit">
-              Update Now
-            </button>
+            <div className="modal-action">
+              <form method="dialog">
+                <button className="btn btn-primary" type="submit">
+                  Update Now
+                </button>
+              </form>
+            </div>
           </form>
         </div>
       </dialog>
