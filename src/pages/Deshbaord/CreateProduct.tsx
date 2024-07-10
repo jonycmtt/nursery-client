@@ -15,7 +15,7 @@ const CreateProduct = () => {
       text: `${data.message}`,
       icon: "success",
     });
-    // navigate("/dashboard/product-list");
+    navigate("/dashboard/product-list");
   }
 
   const onSubmit = async (data: any) => {
@@ -29,7 +29,6 @@ const CreateProduct = () => {
     };
     try {
       await createProduct(productData).unwrap();
-      // console.log(result);
     } catch (error) {
       console.error("Failed to create product:", error);
     }

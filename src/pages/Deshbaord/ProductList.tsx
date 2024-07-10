@@ -1,15 +1,77 @@
-import { Skeleton } from "antd";
-import { useGetProductsQuery } from "../../redux/api/baseApi";
+import { Button, Modal, Skeleton } from "antd";
+import {
+  useDeleteProductMutation,
+  useGetProductsQuery,
+  useUpdateProductMutation,
+} from "../../redux/api/baseApi";
 import { TProducts } from "../../types/productType";
+import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 const ProductList = () => {
   const { data, isLoading } = useGetProductsQuery(undefined);
+  const [deleteProduct] = useDeleteProductMutation();
+  const [updateProduct, { isSuccess }] = useUpdateProductMutation();
+  const [update, setUpdate] = useState({});
+
+  const { _id, title, price, category, rating, imageUrl, description } = update;
+
   const productData = data;
+
+  const handleDelete = (id: string) => {
+    Swal.fire({
+      title: "Are you sure delete product?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your product has been deleted.",
+          icon: "success",
+        });
+        deleteProduct(id);
+      }
+    });
+  };
+  // modal
+  const showModal = async (id) => {
+    const selectUpdateData = await productData.data.find(
+      (item: { _id: string }) => item._id === id
+    );
+    setUpdate(selectUpdateData);
+    document.getElementById("my_modal_5").showModal();
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const id = _id;
+    const form = e.target;
+    const title = form.title.value;
+    const price = form.price.value;
+    const rating = form.rating.value;
+    const category = form.category.value;
+    const imageUrl = form.imageUrl.value;
+    const description = form.description.value;
+
+    // const data = ;
+
+    updateProduct(id, data);
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center">
         <h2 className="text-4xl font-semibold">Product List</h2>
-        <button className="btn btn-primary">Create Product</button>
+        <Link to="/dashboard/create-product">
+          <button className="btn btn-primary">Create Product</button>
+        </Link>
       </div>
 
       <div className="overflow-x-auto my-12 ">
@@ -51,7 +113,10 @@ const ProductList = () => {
                       <td>{item.category}</td>
                       <th className="w-32">
                         <div className="flex gap-3 justify-center items-center">
-                          <button className="btn btn-info btn-outline btn-xs">
+                          <button
+                            onClick={() => showModal(item._id)}
+                            className="btn btn-info btn-outline btn-xs"
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
@@ -67,7 +132,10 @@ const ProductList = () => {
                               />
                             </svg>
                           </button>
-                          <button className="btn btn-error btn-outline btn-xs">
+                          <button
+                            onClick={() => handleDelete(item._id)}
+                            className="btn btn-error btn-outline btn-xs"
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
@@ -99,6 +167,77 @@ const ProductList = () => {
           </>
         )}
       </div>
+      {/* SHOW MODAL */}
+
+      <dialog id="my_modal_5" className="modal">
+        <div className="modal-box">
+          <form method="dialog">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
+          </form>
+
+          <h3 className="font-bold text-lg text-center">Update Product</h3>
+
+          <form
+            onSubmit={handleSubmit}
+            className="my-10 grid grid-cols-1 gap-y-6  text-white"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input
+                defaultValue={title}
+                name="title"
+                className="input input-bordered w-full "
+                type="text"
+                placeholder="Product Title"
+              />
+              <input
+                defaultValue={price}
+                name="price"
+                className="input input-bordered w-full "
+                type="number"
+                placeholder="Product Price"
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input
+                defaultValue={rating}
+                name="rating"
+                className="input input-bordered w-full "
+                type="text"
+                placeholder="Product Rating"
+              />
+              <select
+                defaultValue={category}
+                name="category"
+                className="select select-bordered w-full "
+              >
+                <option disabled selected>
+                  Product Category
+                </option>
+                <option value={"amm"}>amm</option>
+                <option value={"jamm"}>jamm</option>
+              </select>
+            </div>
+            <textarea
+              defaultValue={imageUrl}
+              name="imageUrl"
+              className="input input-bordered resize-none h-20 p-4"
+              placeholder="Product URL"
+            ></textarea>
+            <textarea
+              defaultValue={description}
+              name="description"
+              className="input input-bordered resize-none h-24 p-4"
+              id=""
+              placeholder="Description..."
+            ></textarea>
+            <button className="btn btn-primary" type="submit">
+              Update Now
+            </button>
+          </form>
+        </div>
+      </dialog>
     </div>
   );
 };
