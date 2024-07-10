@@ -1,12 +1,24 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCreateProductMutation } from "../../redux/api/baseApi";
+import Swal from "sweetalert2";
 
 const CreateProduct = () => {
   const { register, handleSubmit } = useForm();
-  const [addData] = useCreateProductMutation(undefined);
+  const [createProduct, { data, isLoading, isSuccess }] =
+    useCreateProductMutation();
+  const navigate = useNavigate();
 
-  const onSubmit = (data: any) => {
+  if (isSuccess) {
+    Swal.fire({
+      title: "Good job!",
+      text: `${data.message}`,
+      icon: "success",
+    });
+    // navigate("/dashboard/product-list");
+  }
+
+  const onSubmit = async (data: any) => {
     const productData = {
       title: data.title,
       description: data.description,
@@ -15,14 +27,17 @@ const CreateProduct = () => {
       category: data.category,
       imageUrl: data.imageUrl,
     };
-
-    addData(productData);
+    try {
+      await createProduct(productData).unwrap();
+      // console.log(result);
+    } catch (error) {
+      console.error("Failed to create product:", error);
+    }
   };
-
-  console.log(addData);
 
   return (
     <div>
+      {isLoading && <span>Loading...</span>}
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-semibold">Product Create</h2>
         <Link to="/dashboard/product-list">
@@ -67,12 +82,12 @@ const CreateProduct = () => {
         </div>
         <textarea
           {...register("imageUrl", { required: true })}
-          className="input input-bordered resize-none h-28"
+          className="input input-bordered resize-none h-20"
           placeholder="Product URL"
         ></textarea>
         <textarea
           {...register("description", { required: true })}
-          className="input input-bordered resize-none h-32"
+          className="input input-bordered resize-none h-24"
           id=""
           placeholder="Description..."
         ></textarea>
