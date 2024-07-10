@@ -1,7 +1,7 @@
 import { Button, Modal, Skeleton } from "antd";
 import { TProducts } from "../../types/productType";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import {
@@ -15,13 +15,14 @@ const ProductList = () => {
   const [deleteProduct] = useDeleteProductMutation();
   const [updateProduct, { isSuccess }] = useUpdateProductMutation();
   const [update, setUpdate] = useState({});
+  const navigate = useNavigate();
 
   const { _id, title, price, category, rating, imageUrl, description } = update;
 
   const productData = data;
 
-  if (isLoading) {
-    return;
+  if (isSuccess) {
+    navigate("/dashboard/product-list");
   }
 
   const handleDelete = (id: string) => {
@@ -243,13 +244,9 @@ const ProductList = () => {
               id=""
               placeholder="Description..."
             ></textarea>
-            <div className="modal-action">
-              <form method="dialog">
-                <button className="btn btn-primary" type="submit">
-                  Update Now
-                </button>
-              </form>
-            </div>
+            <button className="btn btn-primary" type="submit">
+              Update Now
+            </button>
           </form>
         </div>
       </dialog>
