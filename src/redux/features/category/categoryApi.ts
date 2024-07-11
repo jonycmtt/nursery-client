@@ -1,37 +1,41 @@
 import { baseApi } from "../../api/baseApi";
 
-const ProductApi = baseApi.injectEndpoints({
+const CategoryApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getProducts: builder.query({
+    getCategory: builder.query({
       query: () => ({
         method: "GET",
-        url: "/products",
+        url: "/categories",
       }),
       providesTags: ["product,categories"],
     }),
-    createProduct: builder.mutation({
+    createCategory: builder.mutation({
       query: (data) => {
-        return { method: "POST", url: "/products/create-product", body: data };
-      },
-      invalidatesTags: ["product,categories"],
-    }),
-    updateProduct: builder.mutation({
-      query: ({ id, data }) => {
-        console.log(id, data);
         return {
-          method: "PATCH",
-          url: `/products/${id}`,
+          method: "POST",
+          url: "/categories/create-category",
           body: data,
         };
       },
       invalidatesTags: ["product,categories"],
     }),
-    deleteProduct: builder.mutation({
+    updateCategory: builder.mutation({
+      query: ({ id, data }) => {
+        console.log(id, data);
+        return {
+          method: "PATCH",
+          url: `/categories/${id}`,
+          body: data,
+        };
+      },
+      invalidatesTags: ["product,categories"],
+    }),
+    deleteCategory: builder.mutation({
       query: (id) => {
         console.log(id);
         return {
           method: "DELETE",
-          url: `/products/${id}`,
+          url: `/categories/${id}`,
         };
       },
       invalidatesTags: ["product,categories"],
@@ -40,8 +44,8 @@ const ProductApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useGetProductsQuery,
-  useCreateProductMutation,
-  useDeleteProductMutation,
-  useUpdateProductMutation,
-} = ProductApi;
+  useGetCategoryQuery,
+  useDeleteCategoryMutation,
+  useCreateCategoryMutation,
+  useUpdateCategoryMutation,
+} = CategoryApi;
