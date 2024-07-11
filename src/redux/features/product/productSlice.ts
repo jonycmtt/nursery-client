@@ -4,13 +4,14 @@ interface ProductState {
   product: {
     search?: string;
   };
+  singleProduct: string;
 
   // searchProduct: Record<string, unknown>;
 }
 
 const initialState: ProductState = {
   product: {},
-  // searchProduct: {},
+  singleProduct: "",
 };
 
 export const productSlice = createSlice({
@@ -20,11 +21,11 @@ export const productSlice = createSlice({
     searchInput: (state, action: PayloadAction<{ search: string }>) => {
       state.product = action.payload;
     },
-    // searchProduct: (state, action) => {
-    //   state.searchProduct.push();
-    // },
+    singleProduct: (state, action) => {
+      state.singleProduct = action.payload;
+    },
   },
 });
 
-export const { searchInput } = productSlice.actions;
+export const { searchInput, singleProduct } = productSlice.actions;
 export default productSlice.reducer;

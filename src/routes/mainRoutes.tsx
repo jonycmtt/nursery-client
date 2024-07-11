@@ -15,7 +15,7 @@ export const mainRoutes = [
     element: <Products />,
   },
   {
-    path: "singleProducts",
+    path: "product/:id",
     element: <SingleProduct />,
   },
   {
