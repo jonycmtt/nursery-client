@@ -1,9 +1,26 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { searchInput } from "../../redux/features/product/productSlice";
 
 const TopHeader = () => {
+  const dispatch = useAppDispatch();
   const [openNav, setOpenNav] = useState(false);
+  const { register, handleSubmit } = useForm();
+  // const categoryData = data;
+  const navigate = useNavigate();
+  const onSearchSubmit = (data) => {
+    // if (data.searchData === "") {
+    //   return alert("please write something");
+    // }
+    const searchInfo = {
+      search: data.searchData,
+    };
+    dispatch(searchInput(searchInfo));
+    navigate(`/products/search`);
+  };
 
   return (
     <div className="bg-black bg-opacity-85  text-white relative">
@@ -52,23 +69,33 @@ const TopHeader = () => {
           </Link>
         </div>
         <div>
-          <form className="join text-black">
+          <form
+            onSubmit={handleSubmit(onSearchSubmit)}
+            className="join text-black"
+          >
             <div>
               <div>
                 <input
-                  className="input input-bordered join-item"
-                  placeholder="Search"
+                  required
+                  {...register("searchData")}
+                  className="input min-w-80 input-bordered join-item"
+                  placeholder="Search Product with title,category"
                 />
               </div>
             </div>
-            <select className="select select-bordered join-item">
+            {/* <select
+              {...register("searchCategory")}
+              className="select select-bordered join-item"
+            >
               <option disabled selected>
-                Filter
+                Category
               </option>
-              <option>Sci-fi</option>
-              <option>Drama</option>
-              <option>Action</option>
-            </select>
+              {categoryData?.data.map((category) => (
+                <option key={category._id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
+            </select> */}
             <div className="indicator">
               <button type="submit" className="btn join-item">
                 Search

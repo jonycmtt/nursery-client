@@ -16,7 +16,7 @@ const NutrientsPlants = () => {
         des="OURS PLANT HOUSE"
       />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mt-12">
-        {productData?.data.map((item) => (
+        {productData?.data.slice(0, 4).map((item) => (
           <div
             key={item._id}
             className="text-center flex flex-col items-center gap-5 cursor-pointer"

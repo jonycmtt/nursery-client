@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <div className="w-full bg-white text-black py-4 absolute  transition-all">
+    <div className="w-full bg-white z-50 text-black py-4 absolute  transition-all">
       <ul className="max-w-6xl mx-auto flex items-center gap-8 text-lg">
         <li>
           <Link to="/">Home</Link>

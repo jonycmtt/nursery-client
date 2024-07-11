@@ -1,7 +1,6 @@
 import { Rate } from "antd";
 import { useGetProductsQuery } from "../../redux/features/product/productApi";
 import HeaderSection from "../../utils/HeaderSection";
-import AddIcons from "../../utils/AddIcons";
 
 const Products = () => {
   const { data, isLoading } = useGetProductsQuery(undefined);
@@ -10,14 +9,12 @@ const Products = () => {
   if (isLoading) {
     return <p>loadding...</p>;
   }
-
-  console.log(productData);
   return (
     <div className="my-32 max-w-7xl mx-auto">
       <HeaderSection title="Trending Products" des="TRENDING IN THIS SEASON" />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-10 mt-16">
-        {productData.data.map((product) => (
+        {productData?.data.slice(0, 4).map((product) => (
           <div
             key={product._id}
             className="card shadow relative group overflow-hidden transition-all"

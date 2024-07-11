@@ -2,7 +2,8 @@ import Checkout from "../pages/MainPage/Checkout";
 import Landing from "../pages/landing/Landing";
 import Payment from "../pages/MainPage/Payment";
 import SingleProduct from "../pages/MainPage/SingleProduct";
-import Products from "../pages/MainPage/Products";
+import Products from "../pages/MainPage/Product/Products";
+import SearchPage from "../pages/SearchPage";
 
 export const mainRoutes = [
   {
@@ -24,5 +25,9 @@ export const mainRoutes = [
   {
     path: "payment",
     element: <Payment />,
+  },
+  {
+    path: "products/search",
+    element: <SearchPage />,
   },
 ];
