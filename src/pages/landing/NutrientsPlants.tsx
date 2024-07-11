@@ -1,4 +1,5 @@
 import { useGetProductsQuery } from "../../redux/features/product/productApi";
+import HeaderSection from "../../utils/HeaderSection";
 
 const NutrientsPlants = () => {
   const { data, isLoading } = useGetProductsQuery(undefined);
@@ -9,14 +10,11 @@ const NutrientsPlants = () => {
   };
 
   return (
-    <div className="my-20 max-w-6xl mx-auto">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-4xl font-semibold">Welcome To Nutrients Plants</h2>
-        <p className="text-slate-600 flex items-center gap-6 justify-center mt-2">
-          <span className="w-16 h-[2px] bg-slate-200 block"></span>OURS PLANT
-          HOUSE <span className="w-16 h-[2px] bg-slate-200 block"></span>
-        </p>
-      </div>
+    <div className="my-16 max-w-6xl mx-auto">
+      <HeaderSection
+        title="Welcome To Nutrients Plants"
+        des="OURS PLANT HOUSE"
+      />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mt-12">
         {productData?.data.map((item) => (
           <div

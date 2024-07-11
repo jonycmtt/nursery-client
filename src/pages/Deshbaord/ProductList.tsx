@@ -9,17 +9,20 @@ import {
   useGetProductsQuery,
   useUpdateProductMutation,
 } from "../../redux/features/product/productApi";
+import { useGetCategoryQuery } from "../../redux/features/category/categoryApi";
 
 const ProductList = () => {
   const { data, isLoading } = useGetProductsQuery(undefined);
   const [deleteProduct] = useDeleteProductMutation();
   const [updateProduct, { isSuccess }] = useUpdateProductMutation();
   const [update, setUpdate] = useState({});
+  const { data: categoryInfo } = useGetCategoryQuery(undefined);
   const navigate = useNavigate();
 
   const { _id, title, price, category, rating, imageUrl, description } = update;
 
   const productData = data;
+  const categoryData = categoryInfo;
 
   if (isSuccess) {
     navigate("/dashboard/product-list");
@@ -193,7 +196,7 @@ const ProductList = () => {
 
           <form
             onSubmit={handleSubmit}
-            className="my-10 grid grid-cols-1 gap-y-6  text-white"
+            className="my-10 grid grid-cols-1 gap-y-6 text-gray-500"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
@@ -223,12 +226,16 @@ const ProductList = () => {
                 defaultValue={category}
                 name="category"
                 className="select select-bordered w-full "
+                required
               >
                 <option disabled selected>
                   Product Category
                 </option>
-                <option value={"amm"}>amm</option>
-                <option value={"jamm"}>jamm</option>
+                {categoryData?.data.map((category) => (
+                  <option key={category._id} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
               </select>
             </div>
             <textarea
