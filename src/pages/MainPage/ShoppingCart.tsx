@@ -1,10 +1,25 @@
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
 import ProductHeader from "./Product/ProductHeader";
+import { useForm } from "react-hook-form";
+import { useCreateOrderDataMutation } from "../../redux/features/cart/cartApi";
+import { toast } from "sonner";
 
 const ShoppingCart = () => {
+  const delay = (ms: number | undefined) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
+
+  const { register, handleSubmit } = useForm();
   const cartData = useAppSelector((cart) => cart.cart.cart);
   const [checkout, setCheckout] = useState(false);
+  const [createOrder, { data, isLoading, isSuccess, isError, error }] =
+    useCreateOrderDataMutation();
+
+  console.log(cartData);
+
+  if (isSuccess) {
+    toast.success("Order accept!");
+  }
 
   const totalCharge = cartData.reduce((acc, item) => {
     return acc + item.totalPrice;
@@ -25,6 +40,28 @@ const ShoppingCart = () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [cartData]);
+
+  const onOrderSubmit = async (data) => {
+    try {
+      const orderInfo = {
+        productItem: cartData,
+        name: data.name,
+        email: data.email,
+        TotalPrice: totalCharge,
+        phoneNumber: data.phone,
+        company: data.company,
+        address: data.address,
+        city: data.city,
+        postCode: data.postCode,
+        country: data.country,
+      };
+      await createOrder(orderInfo);
+      // console.log(orderInfo);
+    } catch (error) {
+      console.error("Failed to create product:", error);
+    }
+  };
+
   return (
     <div>
       <ProductHeader title="Shopping Cart" />
@@ -94,7 +131,7 @@ const ShoppingCart = () => {
             <h2>Your Personal Details</h2>
             <h2>Your Address</h2>
           </div> */}
-            <form className=" my-12">
+            <form onSubmit={handleSubmit(onOrderSubmit)} className=" my-12">
               <div className="flex justify-center flex-col lg:flex-row gap-12">
                 <div className="w-full">
                   <h2 className="text-xl font-semibold border-b pb-2">
@@ -106,6 +143,7 @@ const ShoppingCart = () => {
                         Your Full Name :
                       </label>
                       <input
+                        {...register("name")}
                         id="name"
                         className="input input-bordered"
                         type="text"
@@ -117,6 +155,7 @@ const ShoppingCart = () => {
                         Your Email :
                       </label>
                       <input
+                        {...register("email")}
                         id="email"
                         className="input input-bordered"
                         type="email"
@@ -128,6 +167,7 @@ const ShoppingCart = () => {
                         Your Phone Number :
                       </label>
                       <input
+                        {...register("phone")}
                         id="phone"
                         className="input input-bordered"
                         type="text"
@@ -146,6 +186,7 @@ const ShoppingCart = () => {
                         Company :
                       </label>
                       <input
+                        {...register("company")}
                         id="Company"
                         className="input input-bordered"
                         type="text"
@@ -157,21 +198,11 @@ const ShoppingCart = () => {
                         Address 1 :
                       </label>
                       <input
-                        id="Address1"
+                        {...register("address")}
+                        id="Address"
                         className="input input-bordered"
                         type="text"
                         placeholder="Address 1"
-                      />
-                    </div>
-                    <div className="flex  flex-col gap-y-2">
-                      <label className="text-slate-600" htmlFor="Address2">
-                        Address 2 :
-                      </label>
-                      <input
-                        id="Address2"
-                        className="input input-bordered"
-                        type="text"
-                        placeholder="Address 2"
                       />
                     </div>
                     <div className="flex  flex-col gap-y-2">
@@ -179,6 +210,7 @@ const ShoppingCart = () => {
                         City :
                       </label>
                       <input
+                        {...register("city")}
                         id="City"
                         className="input input-bordered"
                         type="text"
@@ -190,6 +222,7 @@ const ShoppingCart = () => {
                         Post Code :
                       </label>
                       <input
+                        {...register("postCode")}
                         id="PostCode"
                         className="input input-bordered"
                         type="text"
@@ -201,6 +234,7 @@ const ShoppingCart = () => {
                         Country :
                       </label>
                       <input
+                        {...register("country")}
                         id="Country"
                         className="input input-bordered"
                         type="text"
@@ -211,7 +245,11 @@ const ShoppingCart = () => {
                 </div>
               </div>
               <div className="text-center mt-12">
-                <button className="btn btn-neutral">Confirm Order</button>
+                {isLoading ? (
+                  <span className="loading loading-ring loading-lg"></span>
+                ) : (
+                  <button className="btn btn-neutral">Confirm Order</button>
+                )}
               </div>
             </form>
           </div>

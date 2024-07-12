@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import { searchInput } from "../../redux/features/product/productSlice";
 
 const TopHeader = () => {
