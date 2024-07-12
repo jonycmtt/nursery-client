@@ -8,9 +8,10 @@ import { useState } from "react";
 
 const SingleProduct = () => {
   const selectSingleId = useAppSelector((item) => item.product.singleProduct);
-  const { data, isLoading } = useGetSingleProductsQuery(selectSingleId);
   const dispatch = useAppDispatch();
+  const { data, isLoading } = useGetSingleProductsQuery(selectSingleId);
   const [quantity, setQuantity] = useState("");
+  const cartData = useAppSelector((cart) => cart.cart.cart);
 
   if (isLoading) {
     return;
@@ -18,18 +19,29 @@ const SingleProduct = () => {
 
   const singleProductInfo = data?.data;
 
-  const { title, category, description, imageUrl, price, rating } =
-    singleProductInfo;
+  const {
+    title,
+    category,
+    description,
+    imageUrl,
+    price,
+    rating,
+    quantity: quantityValue,
+  } = singleProductInfo;
 
   const quantityNumber = parseInt(quantity);
   const priceNumber = parseInt(price);
   const totalPrice = priceNumber * quantityNumber;
 
-  const addToCart = async (cart) => {
+  const addToCart = async () => {
     try {
       if (quantity === "") {
         return toast.error("Please added Quantity Number");
       }
+      if (quantityValue < quantity) {
+        return toast.error("Quantity is over!");
+      }
+
       const cartObj = {
         quantity,
         title,
@@ -38,6 +50,13 @@ const SingleProduct = () => {
         price,
         totalPrice,
       };
+      // Check if the product already exists in the cart
+      const existingCartItem = cartData.find((item) => item.title === title);
+
+      if (existingCartItem) {
+        return toast.error("Product already added to cart!");
+      }
+
       dispatch(addCart(cartObj));
       toast.success("Product successfully added to cart!");
     } catch (error) {

@@ -19,7 +19,16 @@ const ProductList = () => {
   const { data: categoryInfo } = useGetCategoryQuery(undefined);
   const navigate = useNavigate();
 
-  const { _id, title, price, category, rating, imageUrl, description } = update;
+  const {
+    _id,
+    title,
+    price,
+    category,
+    rating,
+    imageUrl,
+    description,
+    quantity,
+  } = update;
 
   const productData = data;
   console.log(productData);
@@ -65,6 +74,7 @@ const ProductList = () => {
     const title = form.title.value;
     const price = form.price.value;
     const rating = form.rating.value;
+    const quantity = form.quantity.value;
     const category = form.category.value;
     const imageUrl = form.imageUrl.value;
     const description = form.description.value;
@@ -76,6 +86,7 @@ const ProductList = () => {
       category,
       imageUrl,
       description,
+      quantity,
     };
 
     updateProduct({ id, data });
@@ -217,7 +228,14 @@ const ProductList = () => {
                 placeholder="Product Price"
               />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <input
+                className="input input-bordered w-full "
+                type="text"
+                name="quantity"
+                placeholder="Quantity"
+                defaultValue={quantity}
+              />
               <input
                 defaultValue={rating}
                 name="rating"
