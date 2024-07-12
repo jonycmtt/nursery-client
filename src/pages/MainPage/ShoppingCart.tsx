@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
 import ProductHeader from "./Product/ProductHeader";
 
-const Checkout = () => {
+const ShoppingCart = () => {
   const cartData = useAppSelector((cart) => cart.cart.cart);
   const [checkout, setCheckout] = useState(false);
 
@@ -221,4 +221,4 @@ const Checkout = () => {
   );
 };
 
-export default Checkout;
+export default ShoppingCart;

@@ -22,6 +22,7 @@ const ProductList = () => {
   const { _id, title, price, category, rating, imageUrl, description } = update;
 
   const productData = data;
+  console.log(productData);
   const categoryData = categoryInfo;
 
   if (isSuccess) {
@@ -109,6 +110,7 @@ const ProductList = () => {
                     <th>Title</th>
                     <th>Price</th>
                     <th>Category</th>
+                    <th>Quantity</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -126,6 +128,7 @@ const ProductList = () => {
                       <td>{item.title}</td>
                       <td>{item.price}</td>
                       <td>{item.category}</td>
+                      <td>{item?.quantity}</td>
                       <th className="w-32">
                         <div className="flex gap-3 justify-center items-center">
                           <button
