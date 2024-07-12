@@ -12,9 +12,6 @@ const TopHeader = () => {
   // const categoryData = data;
   const navigate = useNavigate();
   const onSearchSubmit = (data) => {
-    // if (data.searchData === "") {
-    //   return alert("please write something");
-    // }
     const searchInfo = {
       search: data.searchData,
     };
@@ -119,7 +116,7 @@ const TopHeader = () => {
             />
           </svg>
 
-          <Link to="/checkout">
+          <Link to="/shoppingCart">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
