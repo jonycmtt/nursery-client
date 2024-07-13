@@ -6,11 +6,12 @@ import {
 import { Skeleton } from "antd";
 import Swal from "sweetalert2";
 import { useState } from "react";
+import { Category } from "../../types/productType";
 
 const CategoryList = () => {
   const { data, isLoading } = useGetCategoryQuery(undefined);
   const [deleteCategory] = useDeleteCategoryMutation();
-  const [viewCategory, setViewCategory] = useState({});
+  const [viewCategory, setViewCategory] = useState<Partial<Category>>({});
   const category = data;
   const { name, description } = viewCategory;
 
@@ -37,11 +38,16 @@ const CategoryList = () => {
 
   // modal
   const showModal = async (id: any) => {
-    const findData = await category.data.find(
+    const findData = await category?.data.find(
       (item: { _id: string }) => item._id === id
     );
-    setViewCategory(findData);
-    document.getElementById("my_modal_1").showModal();
+    if (findData) {
+      setViewCategory(findData);
+      const modal = document.getElementById("my_modal_1") as HTMLDialogElement;
+      if (modal) {
+        modal.showModal();
+      }
+    }
   };
 
   return (
@@ -76,7 +82,7 @@ const CategoryList = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {category?.data.map((item, index: number) => (
+                  {category?.data.map((item: any, index: number) => (
                     <tr key={item._id}>
                       <td>{index + 1}</td>
                       <td>{item.name}</td>

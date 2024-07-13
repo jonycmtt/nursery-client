@@ -1,10 +1,16 @@
-export type TProducts = {
-  quantity: number;
-  _id: string;
-  title: string;
-  price: number;
-  description: string;
+export type TProduct = {
+  _id?: string;
+  title?: string;
+  price?: number;
+  category?: string;
   rating?: number;
-  category: string;
-  imageUrl: string;
+  imageUrl?: string;
+  description?: string;
+  quantity?: number;
+};
+
+export type Category = {
+  _id: string;
+  name: string;
+  description?: string;
 };

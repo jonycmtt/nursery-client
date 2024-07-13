@@ -4,8 +4,7 @@ import Swal from "sweetalert2";
 
 const CreateCategory = () => {
   const { register, handleSubmit } = useForm();
-  const [CreateCategory, { data, isSuccess, isError, error }] =
-    useCreateCategoryMutation();
+  const [CreateCategory, { data, isSuccess }] = useCreateCategoryMutation();
 
   if (isSuccess) {
     Swal.fire({
