@@ -155,10 +155,11 @@ const SingleProduct = () => {
                     required
                     onChange={(e) => setQuantity(e.target.value)}
                     className={`input ${
-                      inStock ? "" : "input-disabled"
+                      inStock ? "" : "disabled"
                     } text-center w-20 input-bordered rounded-badge`}
                     type="text"
                     defaultValue={"0"}
+                    disabled={!inStock}
                   />
                   <button
                     onClick={() => addToCart(singleProductInfo)}

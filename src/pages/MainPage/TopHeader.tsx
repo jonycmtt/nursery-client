@@ -1,21 +1,31 @@
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { searchInput } from "../../redux/features/product/productSlice";
+import { debounce } from "lodash";
 
 const TopHeader = () => {
   const dispatch = useAppDispatch();
   const [openNav, setOpenNav] = useState(false);
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
+
+  // Debounced search function
+  const debouncedSearch = useCallback(
+    debounce((searchInfo) => {
+      dispatch(searchInput(searchInfo));
+      navigate(`/products/search`);
+    }, 500),
+    [dispatch, navigate]
+  );
+
   const onSearchSubmit = (data) => {
     const searchInfo = {
       search: data.searchData,
     };
-    dispatch(searchInput(searchInfo));
-    navigate(`/products/search`);
+    debouncedSearch(searchInfo);
   };
 
   const cartItemSelector = useAppSelector((item) => item.cart.cart);

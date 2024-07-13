@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import {
@@ -14,6 +14,7 @@ import { useGetCategoryQuery } from "../../../redux/features/category/categoryAp
 import ProductHeader from "./ProductHeader";
 import ProductCard from "./ProductCard";
 import { toast } from "sonner";
+import { debounce } from "lodash";
 
 // TypeScript interfaces for form inputs and product data
 interface FormInputs {
@@ -32,6 +33,7 @@ interface Product {
 
 const Products: React.FC = () => {
   const { register, handleSubmit } = useForm<FormInputs>();
+  const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
 
   // Fetch data using hooks
@@ -64,6 +66,17 @@ const Products: React.FC = () => {
   const searchAllFilterData = searchFilterResponse?.data as Product[];
   const searchAllCategoryData = searchCategoryResponse?.data as Product[];
 
+  // Debounced search function
+  const debouncedSearchFilter = useCallback(
+    debounce((filterObj) => {
+      dispatch(searchFilter(filterObj));
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }, 500),
+    [dispatch]
+  );
   // Form submission handlers
   const onFilterSubmit = (data) => {
     if (Number.isNaN(data.minPrice) && Number.isNaN(data.maxPrice)) {
@@ -79,15 +92,27 @@ const Products: React.FC = () => {
       maxPrice: data.maxPrice.toString(),
     };
     setSearchType("filter");
-    dispatch(searchFilter(filterObj));
+
+    debouncedSearchFilter(filterObj);
   };
+  // Debounced search function
+  const debouncedSearchCategory = useCallback(
+    debounce((categories) => {
+      dispatch(searchCategory(categories));
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }, 500),
+    [dispatch]
+  );
 
   const onSubmitCategory: SubmitHandler<FormInputs> = (data) => {
     const categories = {
       category: data.category || "",
     };
     setSearchType("category");
-    dispatch(searchCategory(categories));
+    debouncedSearchCategory(categories);
   };
 
   // Update received data whenever relevant data changes
@@ -166,15 +191,24 @@ const Products: React.FC = () => {
                 </div>
               </div>
             </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-6">
-              {filteredData.length ? (
-                filteredData.map((product) => (
-                  <ProductCard key={product._id} product={product} />
-                ))
-              ) : (
-                <div className="col-span-full text-center text-slate-600">
-                  No products found.
+              {loading ? (
+                <div className="flex justify-center items-center w-full col-span-full h-24">
+                  <span className="loading loading-spinner loading-md"></span>
                 </div>
+              ) : (
+                <>
+                  {filteredData.length ? (
+                    filteredData.map((product) => (
+                      <ProductCard key={product._id} product={product} />
+                    ))
+                  ) : (
+                    <div className="col-span-full text-center text-slate-600">
+                      No products found.
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>
