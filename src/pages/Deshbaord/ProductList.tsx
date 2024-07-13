@@ -97,7 +97,7 @@ const ProductList = () => {
       <div className="flex justify-between items-center">
         <h2 className="text-4xl font-semibold">Product List</h2>
         <Link to="/dashboard/create-product">
-          <button className="btn btn-primary">Create Product</button>
+          <button className="btn btn-neutral">Create Product</button>
         </Link>
       </div>
 

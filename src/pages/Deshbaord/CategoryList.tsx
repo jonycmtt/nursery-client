@@ -47,9 +47,9 @@ const CategoryList = () => {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <h2 className="text-4xl font-semibold">Category List</h2>
+        <h2 className="text-xl md:text-4xl font-semibold">Category List</h2>
         <Link to="/dashboard/create-category">
-          <button className="btn btn-primary">Create Category</button>
+          <button className="btn btn-neutral btn-sm">Create Category</button>
         </Link>
       </div>
 
@@ -80,7 +80,7 @@ const CategoryList = () => {
                     <tr key={item._id}>
                       <td>{index + 1}</td>
                       <td>{item.name}</td>
-                      <td>{item.description.slice(0, 60)}...</td>
+                      <td>{item.description.slice(0, 30)}...</td>
                       <th className="w-32">
                         <div className="flex gap-3 justify-center items-center">
                           <button

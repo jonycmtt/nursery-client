@@ -42,9 +42,9 @@ const CreateProduct = () => {
     <div>
       {isLoading && <span>Loading...</span>}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold">Product Create</h2>
+        <h2 className="text-xl md:text-2xl font-semibold">Product Create</h2>
         <Link to="/dashboard/product-list">
-          <button className="btn btn-primary">See all Products</button>
+          <button className="btn btn-neutral btn-sm">See all Products</button>
         </Link>
       </div>
       <form
@@ -71,7 +71,6 @@ const CreateProduct = () => {
             className="input input-bordered w-full "
             type="text"
             placeholder="Quantity"
-            defaultValue="0"
           />
           <input
             {...register("rating")}
