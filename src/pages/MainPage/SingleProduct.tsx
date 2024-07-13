@@ -6,18 +6,24 @@ import { addCart } from "../../redux/features/cart/cartSlice";
 import { toast } from "sonner";
 import { useState } from "react";
 import { TProduct } from "../../types/productType";
+import { useParams } from "react-router-dom";
 
 const SingleProduct = () => {
-  const selectSingleId = useAppSelector((item) => item.product.singleProduct);
   const dispatch = useAppDispatch();
-  const { data, isLoading } = useGetSingleProductsQuery(selectSingleId);
+  // const selectSingleId = useAppSelector((item) => item.product.singleProduct);
+  const { id } = useParams();
+  console.log(id);
+  const { data, isLoading } = useGetSingleProductsQuery(id);
   const [quantity, setQuantity] = useState("");
   const cartData = useAppSelector((cart) => cart.cart.cart);
 
   if (isLoading) {
-    return;
+    return <span>loading...</span>;
   }
 
+  if (!data) {
+    return <span>Product not found.</span>;
+  }
   const singleProductInfo = data?.data;
 
   const {

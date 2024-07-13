@@ -38,3 +38,6 @@ export type TCartItem = {
   quantity: number;
   totalPrice: number;
 };
+export interface RouteParams {
+  id: string; // Adjust type according to your actual parameter type
+}
