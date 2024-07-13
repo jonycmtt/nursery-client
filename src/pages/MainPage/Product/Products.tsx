@@ -133,11 +133,11 @@ const Products: React.FC = () => {
   return (
     <div>
       <ProductHeader title="Products" />
-      <div className="my-8">
+      <div className="my-8 px-6 xl:px-0">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12">
           <form
             onSubmit={handleSubmit(onFilterSubmit)}
-            className="w-full lg:w-1/4 shadow p-4 px-8 bg-white"
+            className="w-full md:w-2/3 lg:w-1/4 mx-auto shadow p-4 px-8 bg-white"
           >
             <h2 className="text-lg font-semibold mb-4">Filter</h2>
             <div className="flex flex-col gap-4">
