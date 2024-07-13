@@ -29,7 +29,6 @@ Visit the live site: [Nursery Online](https://nursery-client.vercel.app/)
 
 ## Features
 
-- User authentication and authorization
 - Product browsing with search and filtering options
 - Detailed product pages with images and descriptions
 - Shopping cart management and checkout process
