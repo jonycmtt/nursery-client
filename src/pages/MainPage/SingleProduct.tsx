@@ -5,6 +5,7 @@ import ProductHeader from "./Product/ProductHeader";
 import { addCart } from "../../redux/features/cart/cartSlice";
 import { toast } from "sonner";
 import { useState } from "react";
+import { TProduct } from "../../types/productType";
 
 const SingleProduct = () => {
   const selectSingleId = useAppSelector((item) => item.product.singleProduct);
@@ -35,10 +36,11 @@ const SingleProduct = () => {
   const priceNumber = parseInt(price);
   const totalPrice = priceNumber * quantityNumber;
 
-  const addToCart = async (data) => {
+  const addToCart = async (data: TProduct) => {
+    console.log(data);
     try {
       if (quantity === "") {
-        return toast.error("Please added Quantity Number");
+        return toast.error("Please add a Quantity Number");
       }
       if (quantityValue < quantity) {
         return toast.error("Insufficient quantity available");
@@ -46,11 +48,11 @@ const SingleProduct = () => {
 
       const cartObj = {
         _id,
-        quantity,
+        quantity: quantityNumber,
         title,
         category,
         imageUrl,
-        price,
+        price: priceNumber,
         totalPrice,
       };
       // Check if the product already exists in the cart

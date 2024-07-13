@@ -29,7 +29,7 @@ const ShoppingCart = () => {
     return acc + item.totalPrice;
   }, 50);
   useEffect(() => {
-    const handleBeforeUnload = (event) => {
+    const handleBeforeUnload = (event: any) => {
       if (cartData.length > 0) {
         const message =
           "Are you sure you want to leave? You may lose your cart items.";
@@ -45,7 +45,7 @@ const ShoppingCart = () => {
     };
   }, [cartData]);
 
-  const onOrderSubmit = async (data) => {
+  const onOrderSubmit = async (data: any) => {
     try {
       if (data.cashOnDelivery && data.stripe) {
         return toast.error("Please select One payment method!");
