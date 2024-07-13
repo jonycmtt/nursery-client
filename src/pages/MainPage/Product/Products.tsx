@@ -54,6 +54,9 @@ const Products: React.FC = () => {
   // Initialize state
   // const [receivedData, setReceivedData] = useState<Product[]>([]);
   const [filteredData, setFilteredData] = useState<Product[]>([]);
+  const [searchType, setSearchType] = useState<"filter" | "category" | "all">(
+    "all"
+  );
 
   // Extract data
   const productData = productResponse?.data as Product[];
@@ -75,6 +78,7 @@ const Products: React.FC = () => {
       minPrice: data.minPrice.toString(),
       maxPrice: data.maxPrice.toString(),
     };
+    setSearchType("filter");
     dispatch(searchFilter(filterObj));
   };
 
@@ -82,20 +86,20 @@ const Products: React.FC = () => {
     const categories = {
       category: data.category || "",
     };
-    console.log(categories);
+    setSearchType("category");
     dispatch(searchCategory(categories));
   };
 
   // Update received data whenever relevant data changes
   useEffect(() => {
-    if (searchAllCategoryData) {
+    if (searchType === "category" && searchAllCategoryData) {
       setFilteredData(searchAllCategoryData);
-    } else if (searchAllFilterData) {
+    } else if (searchType === "filter" && searchAllFilterData) {
       setFilteredData(searchAllFilterData);
-    } else if (productData) {
+    } else if (searchType === "all" && productData) {
       setFilteredData(productData);
     }
-  }, [productData, searchAllFilterData, searchAllCategoryData]);
+  }, [searchType, productData, searchAllFilterData, searchAllCategoryData]);
 
   if (isLoadingProducts) {
     return <p>Loading...</p>;
