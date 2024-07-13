@@ -13,7 +13,7 @@ const NutrientsPlants = () => {
     <div className="my-16 max-w-6xl mx-auto">
       <HeaderSection
         title="Welcome To Nutrients Plants"
-        des="OURS PLANT HOUSE"
+        des="OURS CATEGORY PLANT HOUSE"
       />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mt-12 gap-y-12 ">
         {productData?.data.slice(0, 4).map((item) => (
@@ -23,7 +23,7 @@ const NutrientsPlants = () => {
             onClick={() => handleProduct(item._id)}
           >
             <img className="w-52" src={item.imageUrl} alt="" />
-            <h3 className="font-semibold">{item.title}</h3>
+            <h3 className="font-semibold">{item.category}</h3>
           </div>
         ))}
       </div>
