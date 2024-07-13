@@ -10,12 +10,12 @@ const ImageGallery = () => {
   const getProductsItem = getProducts?.data;
 
   return (
-    <div className="max-w-7xl mx-auto my-24">
+    <div className="max-w-7xl mx-auto my-24 px-6 xl:px-0">
       <HeaderSection title="Product Gallery" des="All Product Images Gallery" />
-      <div className=" my-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className=" my-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {getProductsItem.map((product) => (
           <img
-            className="w-64 object-cover"
+            className="min-w-64 mx-auto object-cover"
             key={product._id}
             src={product.imageUrl}
           />
