@@ -9,3 +9,9 @@
     center;
   background-size: cover;
 }
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  fill: #aaa;
+}

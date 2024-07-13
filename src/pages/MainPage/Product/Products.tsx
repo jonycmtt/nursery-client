@@ -13,12 +13,13 @@ import {
 import { useGetCategoryQuery } from "../../../redux/features/category/categoryApi";
 import ProductHeader from "./ProductHeader";
 import ProductCard from "./ProductCard";
+import { toast } from "sonner";
 
 // TypeScript interfaces for form inputs and product data
 interface FormInputs {
-  minPrice: number;
-  maxPrice: number;
-  category: string;
+  minPrice?: number;
+  maxPrice?: number;
+  category?: string;
 }
 
 interface Product {
@@ -51,7 +52,7 @@ const Products: React.FC = () => {
     useGetCategorySearchQuery(selectCategory);
 
   // Initialize state
-  const [receivedData, setReceivedData] = useState<Product[]>([]);
+  // const [receivedData, setReceivedData] = useState<Product[]>([]);
   const [filteredData, setFilteredData] = useState<Product[]>([]);
 
   // Extract data
@@ -62,6 +63,14 @@ const Products: React.FC = () => {
 
   // Form submission handlers
   const onFilterSubmit = (data) => {
+    if (Number.isNaN(data.minPrice) && Number.isNaN(data.maxPrice)) {
+      return toast.error("Please Input Min-Price and Max-Price");
+    } else if (Number.isNaN(data.minPrice)) {
+      return toast.error("Please Input Min-Price");
+    } else if (Number.isNaN(data.maxPrice)) {
+      return toast.error("Please Input Max-Price");
+    }
+
     const filterObj = {
       minPrice: data.minPrice.toString(),
       maxPrice: data.maxPrice.toString(),
@@ -71,30 +80,22 @@ const Products: React.FC = () => {
 
   const onSubmitCategory: SubmitHandler<FormInputs> = (data) => {
     const categories = {
-      category: data.category,
+      category: data.category || "",
     };
+    console.log(categories);
     dispatch(searchCategory(categories));
   };
 
   // Update received data whenever relevant data changes
   useEffect(() => {
-    if (searchAllFilterData) {
-      setReceivedData(searchAllFilterData);
-    } else if (searchAllCategoryData) {
-      setReceivedData(searchAllCategoryData);
+    if (searchAllCategoryData) {
+      setFilteredData(searchAllCategoryData);
+    } else if (searchAllFilterData) {
+      setFilteredData(searchAllFilterData);
     } else if (productData) {
-      setReceivedData(productData);
+      setFilteredData(productData);
     }
   }, [productData, searchAllFilterData, searchAllCategoryData]);
-
-  // Filter data based on the form input
-  useEffect(() => {
-    if (receivedData.length) {
-      setFilteredData(receivedData);
-    } else {
-      setFilteredData(productData || []);
-    }
-  }, [receivedData, productData]);
 
   if (isLoadingProducts) {
     return <p>Loading...</p>;
@@ -148,8 +149,8 @@ const Products: React.FC = () => {
                       {...register("category")}
                       className="select select-bordered w-full"
                     >
-                      <option disabled selected>
-                        Product Category
+                      <option value="" selected>
+                        All Category
                       </option>
                       {categoryData?.map((category) => (
                         <option key={category._id} value={category.name}>
